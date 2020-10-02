@@ -17,8 +17,8 @@ if len(sys.argv) != 3:
         'check_dns.py dns-server1,dns-server2,.. domain.to.resolv,google.co.uk,...'
     )
 
-servers = sys.argv[0].split(',')
-domains = sys.argv[1].split(',')
+servers = sys.argv[1].split(',')
+domains = sys.argv[2].split(',')
 
 resolvers = {}
 
@@ -34,11 +34,6 @@ for domain in domains:
         try:
             res = resolvers[server].query(domain)
             answer = ','.join(sorted([str(r) for a in res.response.answer for r in a.items]))
-            if answer not in results:
-                if results:
-                    #print "%s: %s" % (server, answer)
-                    True
-                results.append(answer)
             #print(results)
             v_print("%s: %s" % (server, answer))
         except Exception as exc:
