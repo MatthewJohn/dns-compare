@@ -20,16 +20,22 @@ if len(sys.argv) != 3:
 servers = sys.argv[0].split(',')
 domains = sys.argv[1].split(',')
 
-for n in domains:
-    v_print(n)
-    results = []
+resolvers = {}
+
+for domain in domains:
+    if domain in results:
+        print('Domain already checked: ' + domain)
+
+    v_print("Checking Domain: {0}".format(n))
+
     for server in servers:
-        my_resolver = dns.resolver.Resolver()
-        my_resolver.timeout = 1
-        my_resolver.lifetime = 1
-        my_resolver.nameservers = [server]
+        if server not in resolvers:
+            resolvers[server] = dns.resolver.Resolver()
+            resolvers[server].timeout = 1
+            resolvers[server].lifetime = 1
+            resolvers[server].nameservers = [server]
         try:
-            res = my_resolver.query(n)
+            res = resolvers[server].query(domain)
             answer = ','.join(sorted([str(r) for a in res.response.answer for r in a.items ]))
             if answer not in results:
                 if results:
