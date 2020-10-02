@@ -23,7 +23,7 @@ domains = sys.argv[1].split(',')
 resolvers = {}
 
 for domain in domains:
-    v_print("Checking Domain: {0}".format(n))
+    v_print("Checking Domain: {0}".format(domain))
 
     for server in servers:
         if server not in resolvers:
@@ -33,7 +33,7 @@ for domain in domains:
             resolvers[server].nameservers = [server]
         try:
             res = resolvers[server].query(domain)
-            answer = ','.join(sorted([str(r) for a in res.response.answer for r in a.items ]))
+            answer = ','.join(sorted([str(r) for a in res.response.answer for r in a.items]))
             if answer not in results:
                 if results:
                     #print "%s: %s" % (server, answer)
