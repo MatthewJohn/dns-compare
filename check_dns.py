@@ -23,9 +23,6 @@ domains = sys.argv[1].split(',')
 resolvers = {}
 
 for domain in domains:
-    if domain in results:
-        print('Domain already checked: ' + domain)
-
     v_print("Checking Domain: {0}".format(n))
 
     for server in servers:
