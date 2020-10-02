@@ -6,6 +6,11 @@ import dns.resolver
 
 VERBOSE = True
 
+def v_print(words):
+    """Print if verbose."""
+    if VERBOSE:
+        print(words)
+
 if len(sys.argv) != 3:
     raise Exception(
         'Invalid arguments: Usage: '
@@ -16,7 +21,7 @@ servers = sys.argv[0].split(',')
 domains = sys.argv[1].split(',')
 
 for n in domains:
-    print(n)
+    v_print(n)
     results = []
     for server in servers:
         my_resolver = dns.resolver.Resolver()
@@ -32,8 +37,7 @@ for n in domains:
                     True
                 results.append(answer)
             #print(results)
-            if VERBOSE:
-                print("%s: %s" % (server, answer))
+            v_print("%s: %s" % (server, answer))
         except Exception as exc:
             print("%s: Error: %s" % (server, str(exc)))
 
