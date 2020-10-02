@@ -1,14 +1,24 @@
-import dns.resolver
 
-import subprocess
+import sys
+
+import dns.resolver
 
 
 VERBOSE = True
 
-for n in ['www.goog.co.uk']:
+if len(sys.argv) != 3:
+    raise Exception(
+        'Invalid arguments: Usage: '
+        'check_dns.py dns-server1,dns-server2,.. domain.to.resolv,google.co.uk,...'
+    )
+
+servers = sys.argv[0].split(',')
+domains = sys.argv[1].split(',')
+
+for n in domains:
     print(n)
     results = []
-    for server in ['8.8.8.8']:
+    for server in servers:
         my_resolver = dns.resolver.Resolver()
         my_resolver.timeout = 1
         my_resolver.lifetime = 1
