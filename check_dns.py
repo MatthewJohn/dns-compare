@@ -6,7 +6,7 @@ import dns.resolver
 
 VERBOSE = True
 
-if len(sys.argv) != 2:
+if len(sys.argv) != 3:
     raise Exception(
         'Invalid arguments: Usage: '
         'check_dns.py dns-server1,dns-server2,.. domain.to.resolv,google.co.uk,...'
