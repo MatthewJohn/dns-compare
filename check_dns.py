@@ -4,7 +4,8 @@ import sys
 import dns.resolver
 
 
-VERBOSE = True
+VERBOSE = False
+FAILED_RESULT = 'Failed'
 
 def v_print(words):
     """Print if verbose."""
@@ -22,6 +23,18 @@ domains = sys.argv[2].split(',')
 
 resolvers = {}
 
+results = {}
+
+def add_result(domain, server, res):
+    if domain not in results:
+        results[domain] = {}
+
+    if res not in results[domain]:
+        results[domain][res] = []
+
+    results[domain][res].append(server)
+
+
 for domain in domains:
     v_print("Checking Domain: {0}".format(domain))
 
@@ -34,9 +47,15 @@ for domain in domains:
         try:
             res = resolvers[server].query(domain)
             answer = ','.join(sorted([str(r) for a in res.response.answer for r in a.items]))
-            #print(results)
+            add_result(domain, server, answer)
             v_print("%s: %s" % (server, answer))
         except Exception as exc:
             print("%s: Error: %s" % (server, str(exc)))
+            add_result(domain, server, FAILED_RESULT)
 
+    # Check results for domain
+    if len(results[domain]) > 1:
+        print("Domain has differing results: " + str(results[domain]))
+    elif FAILED_RESULT in results[domain]:
+        print('Domain has failed results: ' + str(results[domain]))
 
