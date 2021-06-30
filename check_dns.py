@@ -55,7 +55,7 @@ for domain in domains:
 
     # Check results for domain
     if len(results[domain]) > 1:
-        print("Domain has differing results: " + str(results[domain]))
+        print("Domain has differing results: " + domain + " : " + str(results[domain]))
     elif FAILED_RESULT in results[domain]:
-        print('Domain has failed results: ' + str(results[domain]))
+        print('Domain has failed results: ' + domain + ' : ' + str(results[domain]))
 
